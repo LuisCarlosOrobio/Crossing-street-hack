@@ -1,0 +1,33 @@
+def cross_street_with_speed_bump(traffic, time, distance_to_bump):
+    # Initial conditions
+    if time < 14:  # Before 2 PM
+        safe_crossing = "Use the crosswalk"
+    else:  # After 2 PM
+        if traffic == "heavy":
+            # Check if there is a speed bump in front
+            if distance_to_bump > 0 and distance_to_bump <= 10:  # 10 meters or less from the crosswalk
+                # Crossing strategy
+                safe_crossing = "Walk back behind the bump"
+            else:
+                safe_crossing = "Cross at the crosswalk"
+        else:
+            safe_crossing = "Cross at the crosswalk"
+    
+    # Crossing action
+    if safe_crossing == "Walk back behind the bump":
+        # Determine the retreat distance for crossing
+        new_distance = distance_to_bump + 5  # Move 5 meters back from the bump
+        # Check that cars are still flowing semi-efficiently
+        if traffic_flow(new_distance) == "semi-efficient":
+            return "Cross street at new safe position"
+        else:
+            return "Wait or find another strategy"
+    else:
+        return "Cross street at the crosswalk"
+    
+def traffic_flow(distance):
+    # Simulate traffic flow based on the distance to the speed bump
+    if distance >= 5 and distance <= 15:  # Flow is semi-efficient
+        return "semi-efficient"
+    else:
+        return "inefficient"
